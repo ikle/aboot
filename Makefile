@@ -95,6 +95,9 @@ tools/e2lib-native.o: tools/e2lib.c
 tools/e2writeboot-native: tools/e2writeboot.c tools/bio-native.o tools/e2lib-native.o
 	$(HOSTCC) -Iinclude -Itools $^ -o $@
 
+tools/objstrip-native: tools/objstrip.c
+	$(HOSTCC) $< -o $@
+
 all-native: bootlx tools/e2writeboot-native
 
 clean-native:
@@ -116,9 +119,6 @@ bootloader.h: net_aboot.nh b2c
 
 netabootwrap: netabootwrap.c bootloader.h
 	$(CC) $@.c $(CFLAGS) -o $@
-
-tools/objstrip-native: tools/objstrip.c
-	$(HOSTCC) $< -o $@
 
 bootlx:	aboot tools/objstrip-native
 	tools/objstrip-native -vb aboot bootlx
