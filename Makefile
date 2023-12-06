@@ -171,7 +171,6 @@ net_pad:
 
 clean:	sdisklabel/clean tools/clean lib/clean
 	rm -f aboot abootconf net_aboot net_aboot.nh net_pad vmlinux.bootp \
-		tools/objstrip-native \
 		$(ABOOT_OBJS) $(DISK_OBJS) $(NET_OBJS) bootlx \
 		include/ksize.h vmlinux.nh b2c bootloader.h netabootwrap
 
