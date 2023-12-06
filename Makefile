@@ -19,6 +19,14 @@ VMLINUXGZ	= $(KSRC)/arch/alpha/boot/vmlinux.gz
 # for boot testing
 #CFGDEFS       	= -DDEBUG_ISO -DDEBUG_ROCK -DDEBUG_EXT2 -DDEBUG
 
+HOSTCC ?= cc
+CROSS_COMPILE ?= alpha-linux-gnu-
+
+AS	= $(CROSS_COMPILE)as
+CC	= $(CROSS_COMPILE)gcc
+LD	= $(CROSS_COMPILE)ld
+STRIP	= $(CROSS_COMPILE)strip
+
 # root, aka prefix
 root		=
 bindir		= $(root)/sbin
@@ -85,9 +93,11 @@ bootloader.h: net_aboot.nh b2c
 netabootwrap: netabootwrap.c bootloader.h
 	$(CC) $@.c $(CFLAGS) -o $@
 
+tools/objstrip-native: tools/objstrip.c
+	$(HOSTCC) $< -o $@
 
-bootlx:	aboot tools/objstrip
-	tools/objstrip -vb aboot bootlx
+bootlx:	aboot tools/objstrip-native
+	tools/objstrip-native -vb aboot bootlx
 
 install-man: 
 	make -C doc/man install
@@ -118,9 +128,9 @@ endif
 vmlinux.bootp: net_aboot.nh $(VMLINUXGZ) net_pad
 	cat net_aboot.nh $(VMLINUXGZ) net_pad > $@
 
-net_aboot.nh: net_aboot tools/objstrip
-	strip net_aboot
-	tools/objstrip -vb net_aboot $@
+net_aboot.nh: net_aboot tools/objstrip-native
+	$(STRIP) net_aboot
+	tools/objstrip-native -vb net_aboot $@
 
 net_aboot: $(ABOOT_OBJS) $(ABOOT_OBJS) $(NET_OBJS) $(LIBS)
 	$(LD) $(ABOOT_LDFLAGS) $(ABOOT_OBJS) $(NET_OBJS) -o $@ $(LIBS)
@@ -130,6 +140,7 @@ net_pad:
 
 clean:	sdisklabel/clean tools/clean lib/clean
 	rm -f aboot abootconf net_aboot net_aboot.nh net_pad vmlinux.bootp \
+		tools/objstrip-native \
 		$(ABOOT_OBJS) $(DISK_OBJS) $(NET_OBJS) bootlx \
 		include/ksize.h vmlinux.nh b2c bootloader.h netabootwrap
 
@@ -145,8 +156,8 @@ tools/%:
 sdisklabel/%:
 	make -C sdisklabel $* CPPFLAGS="$(CPPFLAGS)"
 
-vmlinux.nh: $(VMLINUX) tools/objstrip
-	tools/objstrip -vb $(VMLINUX) vmlinux.nh
+vmlinux.nh: $(VMLINUX) tools/objstrip-native
+	tools/objstrip-native -vb $(VMLINUX) vmlinux.nh
 
 include/ksize.h: vmlinux.nh
 	echo "#define KERNEL_SIZE `ls -l vmlinux.nh | awk '{print $$5}'` > $@

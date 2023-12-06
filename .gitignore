@@ -10,3 +10,5 @@ tools/e2writeboot
 tools/elfencap
 tools/isomarkboot
 tools/objstrip
+tools/objstrip-native
+
