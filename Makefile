@@ -96,10 +96,7 @@ clean-native:
 
 clean: clean-native
 
-tools/bio-native.o: tools/bio.c
-	$(HOSTCC) -c -Iinclude -Itools $< -o $@
-
-tools/e2lib-native.o: tools/e2lib.c
+tools/%-native.o: tools/%.c
 	$(HOSTCC) -c -Iinclude -Itools $< -o $@
 
 tools/abootconf-native: tools/abootconf.c
