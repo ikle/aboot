@@ -183,7 +183,9 @@ main(int argc, char ** argv)
 	}
 	ip->i_generation = 0;
 	ip->i_file_acl = 0;
-	ip->osd2.linux2.l_i_blocks_hi = 0;
+//	ip->osd2.linux2.l_i_blocks_hi = 0;
+	ip->osd2.linux2.l_i_frag = 0;
+	ip->osd2.linux2.l_i_fsize = 0;
 	ip->osd2.linux2.l_i_uid_high = 0;
 	ip->osd2.linux2.l_i_gid_high = 0;
 
