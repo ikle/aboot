@@ -18,7 +18,11 @@ SECTIONS
   _end = . ;
   PROVIDE (end = .);
 
-  /DISCARD/ : { *(.eh_frame) }
+  /DISCARD/ : {
+	  *(.comment)
+	  *(.eh_frame*)
+	  *(.note.gnu.*)
+  }
 
   .mdebug 0 : { *(.mdebug) }
   .note 0 : { *(.note) }
