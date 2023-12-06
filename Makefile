@@ -81,6 +81,8 @@ else
 all:	aboot
 endif
 
+.PHONY: all clean install all-native clean-native install-native distclean
+
 all: diskboot
 
 #
@@ -108,6 +110,8 @@ clean: clean-native
 #
 # Target tools
 #
+.PHONY: diskboot netboot
+
 diskboot:	bootlx sdisklabel/sdisklabel sdisklabel/swriteboot \
 		tools/e2writeboot tools/isomarkboot tools/abootconf \
 		tools/elfencap
@@ -122,6 +126,8 @@ netabootwrap: netabootwrap.c bootloader.h
 
 bootlx:	aboot tools/objstrip-native
 	tools/objstrip-native -vb aboot bootlx
+
+.PHONY: install-man install-man-gz installondisk
 
 install-man: 
 	make -C doc/man install
