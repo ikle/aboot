@@ -1,7 +1,8 @@
 #ifndef __ALPHA_SYSTEM_H
 #define __ALPHA_SYSTEM_H
 
-#include <asm/pal.h>
+#include <pal.h>
+
 #define PAGE_SHIFT	13
 #define PAGE_SIZE	(1UL << PAGE_SHIFT)
 #define PAGE_OFFSET	0xfffffc0000000000UL
