@@ -133,7 +133,17 @@ netabootwrap: netabootwrap.c bootloader.h
 bootlx:	aboot tools/objstrip-native
 	tools/objstrip-native -vb aboot bootlx
 
-.PHONY: install-man install-man-gz installondisk
+.PHONY: doc clean-doc install-man install-man-gz installondisk
+
+doc:
+	$(MAKE) -C doc/faq
+	$(MAKE) -C doc/man
+
+clean-doc:
+	$(MAKE) -C doc/faq clean
+	$(MAKE) -C doc/man clean
+
+clean: clean-doc
 
 install-man: 
 	make -C doc/man install
