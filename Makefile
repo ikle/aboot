@@ -119,8 +119,8 @@ diskboot:	bootlx sdisklabel/sdisklabel sdisklabel/swriteboot \
 
 netboot: vmlinux.bootp
 
-bootloader.h: net_aboot.nh b2c
-	./b2c net_aboot.nh bootloader.h bootloader
+bootloader.h: net_aboot.nh b2c-native
+	./b2c-native net_aboot.nh bootloader.h bootloader
 
 netabootwrap: netabootwrap.c bootloader.h
 	$(CC) $@.c $(CFLAGS) -o $@
@@ -172,7 +172,7 @@ net_pad:
 clean:	sdisklabel/clean tools/clean lib/clean
 	rm -f aboot abootconf net_aboot net_aboot.nh net_pad vmlinux.bootp \
 		$(ABOOT_OBJS) $(DISK_OBJS) $(NET_OBJS) bootlx \
-		include/ksize.h vmlinux.nh b2c bootloader.h netabootwrap
+		include/ksize.h vmlinux.nh bootloader.h netabootwrap
 
 distclean: clean
 	find . -name \*~ | xargs rm -f
