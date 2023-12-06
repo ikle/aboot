@@ -11,3 +11,7 @@ tools/elfencap
 tools/isomarkboot
 tools/objstrip
 *-native
+
+bootloader.h
+net_aboot
+net_aboot.nh
