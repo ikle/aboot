@@ -88,6 +88,14 @@ all: diskboot
 #
 # Native tools for cross build
 #
+
+all-native: diskboot-native
+
+clean-native:
+	$(RM) tools/*-native tools/*-native.o
+
+clean: clean-native
+
 tools/bio-native.o: tools/bio.c
 	$(HOSTCC) -c -Iinclude -Itools $< -o $@
 
@@ -101,13 +109,6 @@ tools/objstrip-native: tools/objstrip.c
 	$(HOSTCC) $< -o $@
 
 diskboot-native: bootlx tools/e2writeboot-native
-
-all-native: diskboot-native
-
-clean-native:
-	$(RM) tools/*-native tools/*-native.o
-
-clean: clean-native
 
 #
 # Target tools
