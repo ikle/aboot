@@ -40,7 +40,7 @@ export
 #
 LOADADDR	= 20000000
 
-ABOOT_LDFLAGS = -static -N -Taboot.lds --relax
+ABOOT_LDFLAGS = -static -nostdlib -N -Taboot.lds --relax
 
 ifeq ($(TESTING),)
 override CPPFLAGS	+= $(CFGDEFS) -U_FORTIFY_SOURCE -Iinclude
