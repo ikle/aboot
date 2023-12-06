@@ -193,6 +193,7 @@ main (int argc, char *argv[])
 	}
     } else
 #endif
+#if 0  /* FIXME: How to build it with cross-compilation? */
     {
 	aout = (struct exec *) buf;
 
@@ -223,6 +224,13 @@ main (int argc, char *argv[])
 		    aout->ah.text_start + fil_size, offset);
 	}
     }
+#else
+	{
+	    fprintf(stderr, "%s: %s is not in executable format\n",
+		    prog_name, inname);
+	    exit(1);
+	}
+#endif
 
     if (lseek(fd, offset, SEEK_SET) != offset) {
 	perror("lseek");
