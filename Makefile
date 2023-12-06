@@ -19,7 +19,7 @@ VMLINUXGZ	= $(KSRC)/arch/alpha/boot/vmlinux.gz
 # for boot testing
 #CFGDEFS       	= -DDEBUG_ISO -DDEBUG_ROCK -DDEBUG_EXT2 -DDEBUG
 
-HOSTCC ?= cc
+HOSTCC ?= cc -O2 -Wl,-s
 CROSS_COMPILE ?= alpha-linux-gnu-
 
 AS	= $(CROSS_COMPILE)as
