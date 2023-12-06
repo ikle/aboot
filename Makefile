@@ -81,6 +81,30 @@ else
 all:	aboot
 endif
 
+all: diskboot
+
+#
+# Native tools for cross build
+#
+tools/bio-native.o: tools/bio.c
+	$(HOSTCC) -c -Iinclude -Itools $< -o $@
+
+tools/e2lib-native.o: tools/e2lib.c
+	$(HOSTCC) -c -Iinclude -Itools $< -o $@
+
+tools/e2writeboot-native: tools/e2writeboot.c tools/bio-native.o tools/e2lib-native.o
+	$(HOSTCC) -Iinclude -Itools $^ -o $@
+
+all-native: bootlx tools/e2writeboot-native
+
+clean-native:
+	$(RM) tools/*-native tools/*-native.o
+
+clean: clean-native
+
+#
+# Target tools
+#
 diskboot:	bootlx sdisklabel/sdisklabel sdisklabel/swriteboot \
 		tools/e2writeboot tools/isomarkboot tools/abootconf \
 		tools/elfencap
