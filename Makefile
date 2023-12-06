@@ -108,10 +108,14 @@ tools/abootconf-native: tools/abootconf.c
 tools/e2writeboot-native: tools/e2writeboot.c tools/bio-native.o tools/e2lib-native.o
 	$(HOSTCC) -Iinclude -Itools $^ -o $@
 
+tools/elfencap-native: tools/elfencap.c
+	$(HOSTCC) -Iinclude -Itools $^ -o $@
+
 tools/objstrip-native: tools/objstrip.c
 	$(HOSTCC) $< -o $@
 
 diskboot-native: bootlx tools/abootconf-native tools/e2writeboot-native
+diskboot-native: tools/elfencap-native
 
 #
 # Target tools
