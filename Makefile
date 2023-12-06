@@ -102,13 +102,16 @@ tools/bio-native.o: tools/bio.c
 tools/e2lib-native.o: tools/e2lib.c
 	$(HOSTCC) -c -Iinclude -Itools $< -o $@
 
+tools/abootconf-native: tools/abootconf.c
+	$(HOSTCC) -Iinclude -Itools $^ -o $@
+
 tools/e2writeboot-native: tools/e2writeboot.c tools/bio-native.o tools/e2lib-native.o
 	$(HOSTCC) -Iinclude -Itools $^ -o $@
 
 tools/objstrip-native: tools/objstrip.c
 	$(HOSTCC) $< -o $@
 
-diskboot-native: bootlx tools/e2writeboot-native
+diskboot-native: bootlx tools/abootconf-native tools/e2writeboot-native
 
 #
 # Target tools
