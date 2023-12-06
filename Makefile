@@ -100,7 +100,9 @@ tools/e2writeboot-native: tools/e2writeboot.c tools/bio-native.o tools/e2lib-nat
 tools/objstrip-native: tools/objstrip.c
 	$(HOSTCC) $< -o $@
 
-all-native: bootlx tools/e2writeboot-native
+diskboot-native: bootlx tools/e2writeboot-native
+
+all-native: diskboot-native
 
 clean-native:
 	$(RM) tools/*-native tools/*-native.o
