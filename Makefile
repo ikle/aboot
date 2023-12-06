@@ -93,6 +93,7 @@ all-native: diskboot-native
 
 clean-native:
 	$(RM) tools/*-native tools/*-native.o
+	$(RM) sdisklabel/*-native sdisklabel/-native.o
 
 clean: clean-native
 
@@ -105,8 +106,12 @@ clean: clean-native
 tools/e2writeboot-native: tools/bio-native.o tools/e2lib-native.o
 tools/isomarkboot-native: tools/isolib-native.o
 
+sdisklabel/sdisklabel-native: sdisklabel/library-native.o
+sdisklabel/swriteboot-native: sdisklabel/library-native.o
+
 diskboot-native: bootlx tools/abootconf-native tools/e2writeboot-native
 diskboot-native: tools/elfencap-native tools/isomarkboot-native
+diskboot-native: sdisklabel/sdisklabel-native sdisklabel/swriteboot-native
 
 #
 # Target tools
@@ -169,10 +174,11 @@ net_aboot: $(ABOOT_OBJS) $(ABOOT_OBJS) $(NET_OBJS) $(LIBS)
 net_pad:
 	dd if=/dev/zero of=$@ bs=512 count=1
 
-clean:	sdisklabel/clean tools/clean lib/clean
+clean:	tools/clean lib/clean
 	rm -f aboot abootconf net_aboot net_aboot.nh net_pad vmlinux.bootp \
 		$(ABOOT_OBJS) $(DISK_OBJS) $(NET_OBJS) bootlx \
 		include/ksize.h vmlinux.nh bootloader.h netabootwrap
+	make -C sdisklabel clean
 
 distclean: clean
 	find . -name \*~ | xargs rm -f
@@ -183,7 +189,7 @@ lib/%:
 tools/%:
 	make -C tools $* CPPFLAGS="$(CPPFLAGS)"
 
-sdisklabel/%:
+sdisklabel/sdisklabel sdisklabel/swriteboot:
 	make -C sdisklabel $* CPPFLAGS="$(CPPFLAGS)"
 
 vmlinux.nh: $(VMLINUX) tools/objstrip-native
