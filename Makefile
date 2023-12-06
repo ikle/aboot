@@ -103,9 +103,10 @@ tools/%-native: tools/%.c
 	$(HOSTCC) -Iinclude -Itools $^ -o $@
 
 tools/e2writeboot-native: tools/bio-native.o tools/e2lib-native.o
+tools/isomarkboot-native: tools/isolib-native.o
 
 diskboot-native: bootlx tools/abootconf-native tools/e2writeboot-native
-diskboot-native: tools/elfencap-native
+diskboot-native: tools/elfencap-native tools/isomarkboot-native
 
 #
 # Target tools
