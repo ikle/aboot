@@ -124,8 +124,8 @@ diskboot:	bootlx sdisklabel/sdisklabel sdisklabel/swriteboot \
 
 netboot: vmlinux.bootp
 
-bootloader.h: net_aboot.nh b2c-native
-	./b2c-native net_aboot.nh bootloader.h bootloader
+bootloader.h: net-aboot.nh b2c-native
+	./b2c-native net-aboot.nh bootloader.h bootloader
 
 netabootwrap: netabootwrap.c bootloader.h
 	$(CC) $@.c $(CFLAGS) -o $@
@@ -161,21 +161,21 @@ aboot:	$(ABOOT_OBJS) $(DISK_OBJS) $(LIBS)
 	$(CC) $(ABOOT_OBJS) $(DISK_OBJS) -o $@ $(LIBS)
 endif
 
-vmlinux.bootp: net_aboot.nh $(VMLINUXGZ) net_pad
-	cat net_aboot.nh $(VMLINUXGZ) net_pad > $@
+vmlinux.bootp: net-aboot.nh $(VMLINUXGZ) net-pad
+	cat net-aboot.nh $(VMLINUXGZ) net-pad > $@
 
-net_aboot.nh: net_aboot tools/objstrip-native
-	$(STRIP) net_aboot
-	tools/objstrip-native -vb net_aboot $@
+net-aboot.nh: net-aboot tools/objstrip-native
+	$(STRIP) net-aboot
+	tools/objstrip-native -vb net-aboot $@
 
-net_aboot: $(ABOOT_OBJS) $(ABOOT_OBJS) $(NET_OBJS) $(LIBS)
+net-aboot: $(ABOOT_OBJS) $(ABOOT_OBJS) $(NET_OBJS) $(LIBS)
 	$(LD) $(ABOOT_LDFLAGS) $(ABOOT_OBJS) $(NET_OBJS) -o $@ $(LIBS)
 
-net_pad:
+net-pad:
 	dd if=/dev/zero of=$@ bs=512 count=1
 
 clean:	tools/clean lib/clean
-	rm -f aboot abootconf net_aboot net_aboot.nh net_pad vmlinux.bootp \
+	rm -f aboot abootconf net-aboot net-aboot.nh net-pad vmlinux.bootp \
 		$(ABOOT_OBJS) $(DISK_OBJS) $(NET_OBJS) bootlx \
 		include/ksize.h vmlinux.nh bootloader.h netabootwrap
 	make -C sdisklabel clean

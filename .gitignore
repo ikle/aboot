@@ -13,5 +13,5 @@ tools/objstrip
 *-native
 
 bootloader.h
-net_aboot
-net_aboot.nh
+net-aboot
+net-aboot.nh
