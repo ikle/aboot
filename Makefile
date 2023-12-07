@@ -92,7 +92,7 @@ all: diskboot
 all-native: diskboot-native
 
 clean-native:
-	$(RM) tools/*-native tools/*-native.o
+	$(RM) *-native tools/*-native tools/*-native.o
 	$(RM) sdisklabel/*-native sdisklabel/-native.o
 
 clean: clean-native
